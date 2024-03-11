@@ -1,0 +1,160 @@
+{
+  "policies": [
+    {
+      "handler": {
+        "export": "SetHeadersInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "headers": [
+            {
+              "name": "apikey",
+              "value": "$env(SUPABASE_ANON)",
+              "overwrite": true
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer $env(SUPABASE_ANON)",
+              "overwrite": true
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json",
+              "overwrite": true
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal",
+              "overwrite": true
+            }
+          ]
+        }
+      },
+      "name": "set-headers-inbound",
+      "policyType": "set-headers-inbound"
+    },
+    {
+      "handler": {
+        "export": "ClearHeadersInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "exclude": [
+            "my-header",
+            "aws-request-id"
+          ]
+        }
+      },
+      "name": "clear-headers-inbound",
+      "policyType": "clear-headers-inbound"
+    },
+    {
+      "handler": {
+        "export": "ApiKeyInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "allowUnauthenticatedRequests": false,
+          "cacheTtlSeconds": 60
+        }
+      },
+      "name": "api-key-auth-inbound",
+      "policyType": "api-key-inbound"
+    },
+    {
+      "handler": {
+        "export": "RateLimitInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "rateLimitBy": "user",
+          "requestsAllowed": 60,
+          "timeWindowMinutes": 1
+        }
+      },
+      "name": "rate-limit-inbound",
+      "policyType": "rate-limit-inbound"
+    },
+    {
+      "handler": {
+        "export": "SupabaseJwtInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "allowUnauthenticatedRequests": false,
+          "secret": "$env(SUPABASE_JWT_SECRET)",
+          "requiredClaims": {
+            "user_type": [
+              "admin"
+            ]
+          }
+        }
+      },
+      "name": "supabase-jwt-auth-inbound",
+      "policyType": "supabase-jwt-auth-inbound"
+    },
+    {
+      "handler": {
+        "export": "default",
+        "module": "$import(./modules/extract-query-to-context)"
+      },
+      "name": "extract-query-to-context",
+      "policyType": "custom-code-inbound"
+    },
+    {
+      "handler": {
+        "export": "RemoveQueryParamsInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "params": [
+            "current_id"
+          ]
+        }
+      },
+      "name": "remove-query-params-inbound",
+      "policyType": "remove-query-params-inbound"
+    },
+    {
+      "handler": {
+        "export": "RequireOriginInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "failureDetail": "Your origin is not authorized to make this request.",
+          "origins": "https://foodiepreview.flutterflow.app/"
+        }
+      },
+      "name": "require-origin-inbound",
+      "policyType": "require-origin-inbound"
+    },
+    {
+      "handler": {
+        "export": "CachingInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "cacheHttpMethods": [
+            "GET"
+          ],
+          "expirationSecondsTtl": 3600,
+          "headers": "content-type",
+          "statusCodes": [
+            200,
+            201,
+            404
+          ]
+        }
+      },
+      "name": "caching-inbound",
+      "policyType": "caching-inbound"
+    },
+    {
+      "handler": {
+        "export": "SupabaseJwtInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "allowUnauthenticatedRequests": false,
+          "requiredClaims": {
+            "claim_1": []
+          },
+          "secret": "$env(SUPABASE_JWT_SECRET)"
+        }
+      },
+      "name": "supabase-jwt-auth-inbound-1",
+      "policyType": "supabase-jwt-auth-inbound"
+    }
+  ]
+}

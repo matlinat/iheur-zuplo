@@ -1,0 +1,170 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My Zuplo API"
+  },
+  "paths": {
+    "/restaurant": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "post": {
+        "summary": "Post Restaurant",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.SUPABASE_URL}/restaurant"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-auth-inbound",
+              "clear-headers-inbound",
+              "set-headers-inbound"
+            ]
+          }
+        },
+        "operationId": "afe17eb8-cd12-40fa-a2c4-7b99f3e9d054"
+      },
+      "get": {
+        "summary": "Get Restaurant Detail",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.SUPABASE_URL}/restaurant?id=eq.${context.custom.originalQuery.current_id}&select=*,address(street,housenumber,postcode,city),restaurant_features(*),phonenumber(*),restaurant_promotion(*)"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-auth-inbound",
+              "extract-query-to-context",
+              "clear-headers-inbound",
+              "set-headers-inbound",
+              "remove-query-params-inbound"
+            ]
+          }
+        },
+        "operationId": "62bbe111-1e8d-491e-8259-5f0fdad30f1a"
+      }
+    },
+    "/restaurants": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "get": {
+        "summary": "Get Restaurants",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.SUPABASE_URL}/restaurant?select=id,rest_name,rest_header_image,rest_rating_avg,rest_rating_amount"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-auth-inbound",
+              "extract-query-to-context",
+              "clear-headers-inbound",
+              "set-headers-inbound",
+              "remove-query-params-inbound"
+            ]
+          }
+        },
+        "operationId": "62ba1a8a-d40b-4b53-a0b8-b76c7c89e0a1"
+      }
+    },
+    "/open-restaurants": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "post": {
+        "summary": "Get Open Restaurants",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.SUPABASE_URL}/rpc/get_open_restaurants"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-auth-inbound",
+              "clear-headers-inbound",
+              "set-headers-inbound"
+            ]
+          }
+        },
+        "operationId": "d4fc8327-8761-43da-9c14-e26fa0576dac"
+      }
+    },
+    "/nearest-restaurants": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "post": {
+        "summary": "Get Nearest Restaurants",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.SUPABASE_URL}/rpc/get_nearest_restaurants"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-auth-inbound",
+              "clear-headers-inbound",
+              "set-headers-inbound"
+            ]
+          }
+        },
+        "operationId": "fdae2029-7770-4d4c-9294-f26b3ec22337"
+      }
+    },
+    "/restaurant-open-times": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "post": {
+        "summary": "Get Restaurant's Open Times",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.SUPABASE_URL}/rpc/get_open_times"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-auth-inbound",
+              "clear-headers-inbound",
+              "set-headers-inbound"
+            ]
+          }
+        },
+        "operationId": "16d2d93d-687f-424b-b691-669bd224898f"
+      }
+    }
+  }
+}
